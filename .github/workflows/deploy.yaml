@@ -34,7 +34,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             cd savunmanfrontend # Projeye özgü dizin adını buraya yazın
-            git pull https://x-access-token:${{ secrets.GIT_TOKEN }}@github.com/cakirfirat/savunmanfrontend.git # Depodan en son güncellemeleri çekin
+            git pull 
             docker stop savunmanfrontend-container
             docker rm savunmanfrontend-container
             docker rmi savunmanfrontend -f # Eski imajı silin
