@@ -13,6 +13,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Clear npm cache
+        run: npm cache clean --force
+
       - name: Install dependencies
         run: npm install
 
@@ -26,6 +29,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Clear npm cache
+        run: npm cache clean --force
+
       - name: SSH into server and deploy
         uses: appleboy/ssh-action@master
         with:
@@ -34,10 +40,9 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             cd savunmanfrontend # Projeye özgü dizin adını buraya yazın
-            git pull 
-            docker stop savunmanfrontend-container
-            docker rm savunmanfrontend-container
-            docker rmi savunmanfrontend -f # Eski imajı silin
-            docker build -t savunmanfrontend . --rm # Yeni imajı oluşturun ve geçici konteynerleri silin
-            docker run -d -p 3000:80 --name savunmanfrontend-container savunmanfrontend
-            
+            git pull
+            docker stop savunmanfrontend-container || true
+            docker rm savunmanfrontend-container || true
+            docker rmi savunmanfrontend -f || true
+            docker build -t savunmanfrontend .
+            docker run -d -p 8032:80 --name savunmanfrontend-container savunmanfrontend
