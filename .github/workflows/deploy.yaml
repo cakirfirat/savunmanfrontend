@@ -45,4 +45,4 @@ jobs:
             docker rm savunmanfrontend-container || true
             docker rmi savunmanfrontend -f || true
             docker build -t savunmanfrontend .
-            docker run -d -p 8032:80 --name savunmanfrontend-container savunmanfrontend
+            docker run -d -p 8032:8032 --name savunmanfrontend-container savunmanfrontend
