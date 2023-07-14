@@ -39,4 +39,5 @@ jobs:
             docker rm savunmanfrontend-container
             docker rmi savunmanfrontend -f # Eski imajı silin
             docker build -t savunmanfrontend . --rm # Yeni imajı oluşturun ve geçici konteynerleri silin
-            docker run -d -p 8032:80 --name savunmanfrontend-container savunmanfrontend # Docker konteynerini başlatın
+            docker run -d -p 3000:80 --name savunmanfrontend-container savunmanfrontend
+            
