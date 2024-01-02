@@ -31,10 +31,18 @@ function VerifyCode(props) {
             return;
         }
         if (props.verifyCode.done) {
-            if (localStorage.getItem("userType") == "Lawyer") {
+            const userType = localStorage.getItem("userType");
+            console.log(userType)
+            if(userType==null) {
+                navigate("/dashboard");
+                return;
+            }
+            if (userType == "Lawyer") {
                 navigate("/profil-avukat");
+                return;
             } else {
                 navigate("/profil-buro");
+                return;
             }
         }
     }, [props.verifyCode]);

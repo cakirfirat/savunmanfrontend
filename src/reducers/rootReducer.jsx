@@ -6,6 +6,8 @@ import getUserTypes from "./userTypes/getUserTypes";
 import createEnterpriseProfile from "./auth/createEnterpriseProfile";
 import createLawyerProfile from "./auth/createLawyerProfile";
 import checkout from "./payment/checkout";
+import addClient from "./client/addClient";
+import getClients from "./client/getClients";
 export default combineReducers({
     genesis,
     verifyCode,
@@ -13,5 +15,7 @@ export default combineReducers({
     getUserTypes,
     createEnterpriseProfile,
     createLawyerProfile,
-    checkout
+    checkout,
+    addClient,
+    getClients
 });

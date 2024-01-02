@@ -50,13 +50,13 @@ export default (state = initialState, action) => {
     case RESET_VERIFYCODE:
       return {
         error: false,
-        done: true,
+        done: false,
         isLogin: false,
       };
     case LOGOUT:
       return {
         error: false,
-        done: true,
+        done: false,
         isLogin: false,
       };
     default:

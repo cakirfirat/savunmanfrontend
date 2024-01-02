@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     Header,
     HeaderName,
@@ -12,14 +12,33 @@ import {
     OverflowMenu,
     OverflowMenuItem,
 } from 'carbon-components-react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
 import App from '../../App';
+import { logout, resetVerifyCode } from '../../actions/auth/verifyCode';
+import { resetCreateCOde } from '../../actions/auth/createCode';
 
 function AppHeader(props) {
 
     const location = useLocation();
     const isItemActive = (path) => location.pathname === path;
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    // useEffect(() => {
+    //     if (props.verifyCode.isLogin === false) {
+    //         if(!props.createCode.done) {
+    //             navigate("/giris-yap");
+    //             return;
+    //         }
+    //     }
+    // }, [navigate, props.verifyCode, props.createCode]);
+
+    function Logout() {
+        dispatch(resetCreateCOde())
+        dispatch(resetVerifyCode())
+       dispatch(logout())
+    }
 
 
     return (
@@ -32,8 +51,8 @@ function AppHeader(props) {
                 {props.verifyCode.isLogin ?
                     <>
                         <HeaderNavigation aria-label="Site Navigation">
-                            <HeaderMenuItem element={Link} to="/" isActive={isItemActive('/dashboard')} >Ana Sayfa </HeaderMenuItem>
-                            <HeaderMenuItem element={Link} to="/muvekkilerim" isActive={isItemActive('/muvekkillerim')}>Müvekkillerim</HeaderMenuItem>
+                            <HeaderMenuItem element={Link} to="/dashboard" isActive={isItemActive('/dashboard')} >Ana Sayfa </HeaderMenuItem>
+                            <HeaderMenuItem element={Link} to="/muvekkillerim" isActive={isItemActive('/muvekkillerim')}>Müvekkillerim</HeaderMenuItem>
                             <HeaderMenuItem element={Link} to="/davalarim" isActive={isItemActive('/davalarim')} href="/davalarim">Davalarım</HeaderMenuItem>
                             <HeaderMenuItem element={Link} to="/odemeler" isActive={isItemActive('/odemeler')} href="/davalarim">Ödemeler</HeaderMenuItem>
                             <HeaderMenuItem element={Link} to="/hakkimizda" isActive={isItemActive('/hakkimizda')} href="/hakkimizda">Ayarlar</HeaderMenuItem>
@@ -60,7 +79,7 @@ function AppHeader(props) {
                                     <OverflowMenu flipped={document?.dir === 'rtl'} aria-label="overflow-menu">
                                         <OverflowMenuItem itemText="Profil ayarları" requireTitle />
                                         <OverflowMenuItem itemText="Bildirim ayarları" requireTitle />
-                                        <OverflowMenuItem hasDivider isDelete itemText="Çıkış yap" />
+                                        <OverflowMenuItem onClick={Logout}  hasDivider isDelete itemText="Çıkış yap" />
                                     </OverflowMenu>
                                 </>
                                 :

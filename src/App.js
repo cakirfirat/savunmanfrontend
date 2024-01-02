@@ -16,6 +16,9 @@ import CreateEnterprise from "./pages/auth/createEnterprise";
 import VerifyCode from "./pages/auth/veriyCode";
 import Checkout from "./pages/payment/checkout";
 import Dashboard from "./pages/index/Dashboard";
+import Clients from "./pages/client/Clients";
+import Cases from "./pages/case/Cases";
+import Client from "./pages/client/Client";
 
 function App(props) {
   return (
@@ -29,6 +32,9 @@ function App(props) {
         <Route path="/profil-buro" element={<CreateEnterprise />}></Route>
         <Route path="/odeme" element={<Checkout />}></Route>
         <Route path="/dashboard" element={<Dashboard />}></Route>
+        <Route path="/muvekkillerim" element={<Clients/>}></Route>
+        <Route path="/davalarim" element={<Cases/>}></Route>
+        <Route path="/muvekkil/:Id" element={<Client/>}></Route>
       </Routes>
     </div>
   );
