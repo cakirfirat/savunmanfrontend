@@ -8,16 +8,24 @@ import {
 } from 'carbon-components-react'
 import AppHeader from '../layouts/header'
 import Breadcrumbitem from '../layouts/Breadcrumb';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTheme } from '@carbon/react';
+import { connect } from 'react-redux';
 
-function Packages() {
+function Packages(props) {
 
     const title = "Premium Paket";
     const price = "29,999.00/ay (Yıllık satın alımlarda geçerli)";
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const { theme } = useTheme();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(props.verifyCode.isLogin){
+            navigate("/dashboard");
+        }
+    }, [props.verifyCode]);
 
     const handleChange = event => {
         setSearchTerm(event.target.value);
@@ -54,4 +62,9 @@ function Packages() {
     )
 }
 
-export default Packages
+const mapStateToProps = (state) => {
+    return state;
+  };
+  const mapDispatchToProps = {
+  };
+  export default connect(mapStateToProps, mapDispatchToProps)(Packages);

@@ -19,6 +19,8 @@ import Dashboard from "./pages/index/Dashboard";
 import Clients from "./pages/client/Clients";
 import Cases from "./pages/case/Cases";
 import Client from "./pages/client/Client";
+import Payment from "./pages/payment/Payment";
+import Settings from "./pages/settings/Settings";
 
 function App(props) {
   return (
@@ -28,13 +30,16 @@ function App(props) {
         <Route path="/kayit-ol" element={<Register />}></Route>
         <Route path="/kaydi-tamamla" element={<VerifyCode />}></Route>
         <Route path="/paketler" element={<Packages />}></Route>
+        <Route path="/" element={<Packages />}></Route>
         <Route path="/profil-avukat" element={<CreateLawyer />}></Route>
         <Route path="/profil-buro" element={<CreateEnterprise />}></Route>
         <Route path="/odeme" element={<Checkout />}></Route>
+        <Route path="/odemeler" element={<Payment />}></Route>
         <Route path="/dashboard" element={<Dashboard />}></Route>
-        <Route path="/muvekkillerim" element={<Clients/>}></Route>
-        <Route path="/davalarim" element={<Cases/>}></Route>
-        <Route path="/muvekkil/:Id" element={<Client/>}></Route>
+        <Route path="/muvekkillerim" element={<Clients />}></Route>
+        <Route path="/davalarim" element={<Cases />}></Route>
+        <Route path="/muvekkil/:Id" element={<Client />}></Route>
+        <Route path="/ayarlar" element={<Settings />}></Route>
       </Routes>
     </div>
   );

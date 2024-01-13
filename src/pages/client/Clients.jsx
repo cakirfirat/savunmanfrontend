@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { connect, useDispatch } from 'react-redux';
 import Header from '../layouts/header';
 import {
-  TreeView,
-  TreeNode,
   DataTable,
   TableContainer,
   Table,
@@ -21,18 +19,21 @@ import {
   IconButton,
   PaginationNav
 } from 'carbon-components-react';
-import { Tree, Add } from '@carbon/icons-react';
+import { Add, Time } from '@carbon/icons-react';
 import { Link } from 'react-router-dom';
 import { getClients } from '../../actions/client/getClients';
 import { addClient, resetAddClient } from '../../actions/client/addClient';
 import Swal from 'sweetalert2';
 import { Button, DataTableSkeleton, InlineLoading, Loading } from '@carbon/react';
+import { addCase } from '../../actions/case/addCase'
 
 function Clients(props) {
-  const [expanded, setExpanded] = useState(['parent']);
+  const button = React.createRef();
+  const dispatch = useDispatch();
   const [searchInput, setSearchInput] = useState('');
   const [clientList, setClientList] = useState([]);
   const [open, setOpen] = useState(false)
+  const [openClient, setOpenClient] = useState(false)
   const [name, setName] = useState('')
   const [surname, setSurname] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
@@ -40,8 +41,8 @@ function Clients(props) {
   const [email, setMail] = useState('')
   const [address, setAddress] = useState('')
   const [summary, setSummary] = useState('')
-  const button = React.createRef();
-  const dispatch = useDispatch();
+  const [client, setClient] = useState({});
+  const [caseDescription, setCaseDescription] = useState('')
 
   useEffect(() => {
     dispatch(getClients());
@@ -57,15 +58,14 @@ function Clients(props) {
             surname: client.Surname,
             tckn: client.TCKN,
             phoneNumber: client.PhoneNumber,
-            caseStatus: <Tag type="green">Aktif dava mevcut</Tag>,
-            detail: <Link to={`/muvekkil/${client.ID}`}>Detay</Link>,
-            request: <Button kind="tertiary" size="sm">Talep oluştur</Button>
+            caseStatus: client.Cases.length > 0 ? <Tag title='sd' type='green'>Aktif dava mevcut</Tag> : <Tag type='red'>Aktif dava bulunmamakta</Tag>,
+            detail: <Link style={{ textDecoration: "none" }} className='d-flex align-items-center' to={`/muvekkil/${client.ID}`}>Detay <i className="fa-light fa-arrow-right ms-2"></i></Link>,
+            request: <Button onClick={() => { setOpenClient(true); setClient(client) }} kind="tertiary" size="sm">Talep oluştur</Button>
           }
         })
       )
     }
   }, [props.getClients])
-
   // Sütun başlıkları
   const headers = [
     { key: 'name', header: 'İsim', },
@@ -73,8 +73,8 @@ function Clients(props) {
     { key: 'tckn', header: 'TCKN' },
     { key: 'phoneNumber', header: 'Telefon' },
     { key: 'caseStatus', header: 'Aktif Dava Durumu' },
-    { key: 'detail', header: '' },
-    { key: 'request', header: ''}
+    { key: 'request', header: '' },
+    { key: 'detail', header: '' }
   ];
 
   // Arama işlevi
@@ -117,6 +117,21 @@ function Clients(props) {
     }
 
   }, [props.addClient]);
+
+  useEffect(() => {
+    if (props.addCase.done) {
+      setOpenClient(false)
+      Swal.fire({
+        confirmButtonText: 'Anladım',
+        icon: 'success',
+        title: 'Başarılı',
+        text: 'Dava tutanağı talebi müvekkilinize gönderildi',
+      })
+      dispatch(getClients());
+      dispatch(resetAddClient());
+    }
+  }, [props.addCase])
+
 
 
   return (
@@ -185,13 +200,14 @@ function Clients(props) {
         modalHeading="Yeni müvekkil ekle"
         primaryButtonText="Ekle"
         secondaryButtonText="Vazgeç"
+        loadingStatus={props.addClient.spinner ? 'active' : 'inactive'}
+        loadingDescription="Ekleniyor..."
         onRequestSubmit={() => { handleAddClient() }}
         open={open}
         onRequestClose={() => setOpen(false)}>
         <p className='mt-3'>
           Eklediğiniz müvekkilin bilgilerinin doğruluğundan emin olun. Müvekkilden talep edeceğiniz bilgiler sms yoluyla kendisine iletilecektir
         </p>
-        {props.addClient.spinner ? <Loading description="Yükleniyor..." /> : null}
         <TextInput
           onChange={(e) => { setName(e.target.value) }}
           defaultValue={name}
@@ -252,6 +268,34 @@ function Clients(props) {
           {props.addClient.spinner ? <InlineLoading description="Yükleniyor..." /> : "Ekle"}
         </Button> */}
 
+      </Modal>
+      <Modal
+        className='text-start'
+        launcherButtonRef={button}
+        modalHeading="Yeni dava tutanağı talebi"
+        primaryButtonText="Ekle"
+        secondaryButtonText="Vazgeç"
+        onRequestSubmit={(e) => {
+          e.preventDefault();
+          const now = new Date().toISOString();
+          dispatch(addCase(client.ID, caseDescription, "active", now, null, null))
+        }}
+        loadingStatus={props.addCase.spinner ? 'active' : 'inactive'}
+        loadingDescription="Ekleniyor..."
+        open={openClient}
+        onRequestClose={() => setOpenClient(false)}>
+        <p className='mt-1'>
+          Oluşturacağınız taslak ile birlikte müvekkilinize sms yoluyla dava tutanağı talebi gönderilecektir. Müvekkiliniz bu linki kullanarak ilgili alanları doldurmalıdır.
+        </p>
+
+        <TextArea
+          onChange={(e) => { setCaseDescription(e.target.value) }}
+          defaultValue={name}
+          className='mt-3'
+          data-modal-primary-focus
+          id="text-input-1"
+          labelText="Dava kısa açıklaması"
+          placeholder="Açıklama" />
       </Modal>
     </div>
   )

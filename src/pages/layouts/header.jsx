@@ -55,7 +55,7 @@ function AppHeader(props) {
                             <HeaderMenuItem element={Link} to="/muvekkillerim" isActive={isItemActive('/muvekkillerim')}>Müvekkillerim</HeaderMenuItem>
                             <HeaderMenuItem element={Link} to="/davalarim" isActive={isItemActive('/davalarim')} href="/davalarim">Davalarım</HeaderMenuItem>
                             <HeaderMenuItem element={Link} to="/odemeler" isActive={isItemActive('/odemeler')} href="/davalarim">Ödemeler</HeaderMenuItem>
-                            <HeaderMenuItem element={Link} to="/hakkimizda" isActive={isItemActive('/hakkimizda')} href="/hakkimizda">Ayarlar</HeaderMenuItem>
+                            <HeaderMenuItem element={Link} to="/ayarlar" isActive={isItemActive('/ayarlar')} href="/hakkimizda">Ayarlar</HeaderMenuItem>
                         </HeaderNavigation>
                     </>
                     :
@@ -63,7 +63,7 @@ function AppHeader(props) {
                         <HeaderNavigation aria-label="Site Navigation">
                             <HeaderMenuItem element={Link} to="/" isActive={isItemActive('/')} href="/">Ana Sayfa </HeaderMenuItem>
                             <HeaderMenuItem element={Link} to="/paketler" isActive={isItemActive('/paketler')} href="/paketler">Paketler</HeaderMenuItem>
-                            <HeaderMenuItem element={Link} to="/hakkimizda" isActive={isItemActive('/hakkimizda')} href="/hakkimizda">Hakkımızda</HeaderMenuItem>
+                            <HeaderMenuItem element={Link} to="/ayarlar" isActive={isItemActive('/ayarlar')} href="/hakkimizda">Hakkımızda</HeaderMenuItem>
                         </HeaderNavigation>
 
                     </>

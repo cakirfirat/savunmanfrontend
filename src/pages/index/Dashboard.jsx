@@ -17,6 +17,8 @@ import {
     ContainedList,
     ContainedListItem,
     Tag,
+    DataTableSkeleton,
+    StructuredListSkeleton,
 
 } from '@carbon/react'
 import { useNavigate } from 'react-router'
@@ -119,7 +121,6 @@ function Dashboard(props) {
 
 
 
-    console.log(rows)
 
 
     const handleAddClient = () => {
@@ -154,11 +155,11 @@ function Dashboard(props) {
     }, [props.addClient]);
     const handlePageChange = (newPage) => {
         // setCurrentPage(newPage);
-        console.log(newPage + 1)
+        // console.log(newPage + 1)
         // Burada yeni sayfa numarasına göre verileri yükleyin veya başka işlemler yapın
     };
 
-
+    console.log(props.getClients)
     return (
         <div>
             <Header />
@@ -173,31 +174,35 @@ function Dashboard(props) {
                                         <Add />
                                     </IconButton>
                                 </div>
-                                <DataTable rows={rows} headers={headers} >
+                                {props.getClients.spinner ?
+                                    <DataTableSkeleton headers={headers} aria-label="sample table" />
+                                    :
+                                    <DataTable rows={rows} headers={headers} >
 
-                                    {({ rows, headers, getTableProps, getHeaderProps, getRowProps }) => (
-                                        <Table {...getTableProps()}>
-                                            <TableHead>
-                                                <TableRow>
-                                                    {headers.map((header) => (
-                                                        <TableHeader {...getHeaderProps({ header })}>
-                                                            {header.header}
-                                                        </TableHeader>
-                                                    ))}
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                                {rows.map((row) => (
-                                                    <TableRow {...getRowProps({ row })}>
-                                                        {row.cells.map((cell) => (
-                                                            <TableCell  key={cell.id}>{cell.value}</TableCell>
+                                        {({ rows, headers, getTableProps, getHeaderProps, getRowProps }) => (
+                                            <Table {...getTableProps()}>
+                                                <TableHead>
+                                                    <TableRow>
+                                                        {headers.map((header) => (
+                                                            <TableHeader {...getHeaderProps({ header })}>
+                                                                {header.header}
+                                                            </TableHeader>
                                                         ))}
                                                     </TableRow>
-                                                ))}
-                                            </TableBody>
-                                        </Table>
-                                    )}
-                                </DataTable>
+                                                </TableHead>
+                                                <TableBody>
+                                                    {rows.map((row) => (
+                                                        <TableRow {...getRowProps({ row })}>
+                                                            {row.cells.map((cell) => (
+                                                                <TableCell key={cell.id}>{cell.value}</TableCell>
+                                                            ))}
+                                                        </TableRow>
+                                                    ))}
+                                                </TableBody>
+                                            </Table>
+                                        )}
+                                    </DataTable>
+                                }
                                 <PaginationNav
                                     className='mt-3 d-flex justify-content-end'
                                     itemsShown={5}
@@ -211,6 +216,7 @@ function Dashboard(props) {
                     <div className="col-4">
                         <div className="card">
                             <div className="card-body text-start">
+                                {/* <StructuredListSkeleton  /> */}
                                 <div className='d-flex justify-content-between'>
                                     <h4>Yaklaşan davalarım</h4>
                                     <IconButton
@@ -226,8 +232,8 @@ function Dashboard(props) {
                                     {searchcaseResults.map((listItem, key) => {
                                         return (
                                             <ContainedListItem className="" key={key}>{listItem} <div className="text-end">
-                                            <Tag>3 gün kaldı</Tag></div>
-                                        </ContainedListItem>
+                                                <Tag>3 gün kaldı</Tag></div>
+                                            </ContainedListItem>
                                         )
                                     })}
                                 </ContainedList>
@@ -243,6 +249,8 @@ function Dashboard(props) {
                 primaryButtonText="Ekle"
                 secondaryButtonText="Vazgeç"
                 onRequestSubmit={() => { handleAddClient() }}
+                loadingStatus={props.addClient.spinner ? 'active' : 'inactive'}
+                loadingDescription="Ekleniyor..."
                 open={open}
                 onRequestClose={() => setOpen(false)}>
                 <p className='mt-3'>

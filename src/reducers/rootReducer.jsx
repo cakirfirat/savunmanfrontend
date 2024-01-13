@@ -8,6 +8,8 @@ import createLawyerProfile from "./auth/createLawyerProfile";
 import checkout from "./payment/checkout";
 import addClient from "./client/addClient";
 import getClients from "./client/getClients";
+import addCase from "./case/addCase";
+import updateCase from "./case/updateCase";
 export default combineReducers({
     genesis,
     verifyCode,
@@ -17,5 +19,7 @@ export default combineReducers({
     createLawyerProfile,
     checkout,
     addClient,
-    getClients
+    getClients,
+    addCase,
+    updateCase
 });

@@ -44,6 +44,14 @@ function Login(props) {
 
     }, [props.createCode]);
 
+    useEffect(() => {
+        if (props.verifyCode.isLogin) {
+            navigate("/dashboard");
+            return;
+        }
+
+    }, [props.verifyCode]);
+
     return (
         <div>
             <AppHeader />
