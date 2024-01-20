@@ -60,7 +60,7 @@ function Login(props) {
                     <div className=" d-flex justify-content-center align-items-center vh-100">
                         <div className="card" style={{ width: "28rem" }}>
                             <div className="card-body  p-4 text-start ">
-                                <FormGroup className="mt-3" legendText="Admin paneline hoşgeldiniz, lütfen girdiğiniz bilgilerin doğruluğundan emin olun.">
+                                <FormGroup className="mt-3" legendText="Hukuksal'a hoşgeldiniz, lütfen girdiğiniz bilgilerin doğruluğundan emin olun.">
                                     <Section>
                                         <Section>
                                             <Heading className="mb-2">Giriş Yap</Heading>

@@ -25,7 +25,8 @@ import { getClients } from '../../actions/client/getClients';
 import { addClient, resetAddClient } from '../../actions/client/addClient';
 import Swal from 'sweetalert2';
 import { Button, DataTableSkeleton, InlineLoading, Loading } from '@carbon/react';
-import { addCase } from '../../actions/case/addCase'
+import { addCase, resetAddCase } from '../../actions/case/addCase'
+import IsLogin from '../layouts/IsLogin';
 
 function Clients(props) {
   const button = React.createRef();
@@ -58,9 +59,9 @@ function Clients(props) {
             surname: client.Surname,
             tckn: client.TCKN,
             phoneNumber: client.PhoneNumber,
-            caseStatus: client.Cases.length > 0 ? <Tag title='sd' type='green'>Aktif dava mevcut</Tag> : <Tag type='red'>Aktif dava bulunmamakta</Tag>,
-            detail: <Link style={{ textDecoration: "none" }} className='d-flex align-items-center' to={`/muvekkil/${client.ID}`}>Detay <i className="fa-light fa-arrow-right ms-2"></i></Link>,
-            request: <Button onClick={() => { setOpenClient(true); setClient(client) }} kind="tertiary" size="sm">Talep oluştur</Button>
+            caseStatus: client.Cases.length > 0 ? <Tag title='sd' type='green'>Aktif tutanak talebi mevcut</Tag> : <Tag type='red'>Aktif tutanak talebi bulunmamakta</Tag>,
+            detail: <Link style={{ textDecoration: "none" }} className='d-flex align-items-center' to={`/muvekkil/${client.ID}`}>Müvekkil detayı <i className="fa-light fa-arrow-right ms-2"></i></Link>,
+            request: <Button onClick={() => { setOpenClient(true); setClient(client) }} kind="tertiary" size="sm">Tutanak talebi gönder</Button>
           }
         })
       )
@@ -72,7 +73,7 @@ function Clients(props) {
     { key: 'surname', header: 'Soyisim' },
     { key: 'tckn', header: 'TCKN' },
     { key: 'phoneNumber', header: 'Telefon' },
-    { key: 'caseStatus', header: 'Aktif Dava Durumu' },
+    { key: 'caseStatus', header: 'Aktif Tutanak Talepleri' },
     { key: 'request', header: '' },
     { key: 'detail', header: '' }
   ];
@@ -128,7 +129,7 @@ function Clients(props) {
         text: 'Dava tutanağı talebi müvekkilinize gönderildi',
       })
       dispatch(getClients());
-      dispatch(resetAddClient());
+      dispatch(resetAddCase());
     }
   }, [props.addCase])
 
@@ -136,6 +137,7 @@ function Clients(props) {
 
   return (
     <div>
+      <IsLogin />
       <Header />
       <div className="container">
         <div className="row">
@@ -186,7 +188,7 @@ function Clients(props) {
 
 
                   </Table>
-                  <PaginationNav className='d-flex justify-content-end' itemsShown={5} totalItems={10} />
+                  {/* <PaginationNav className='d-flex justify-content-end' itemsShown={5} totalItems={10} /> */}
 
                 </TableContainer>
               )} />

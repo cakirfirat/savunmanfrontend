@@ -19,6 +19,7 @@ import {
     Tag,
     DataTableSkeleton,
     StructuredListSkeleton,
+    InlineLoading,
 
 } from '@carbon/react'
 import { useNavigate } from 'react-router'
@@ -29,6 +30,9 @@ import Swal from 'sweetalert2';
 import { getClients } from '../../actions/client/getClients';
 import { PaginationNav, Search } from 'carbon-components-react';
 import { Link } from 'react-router-dom';
+import IsLogin from '../layouts/IsLogin';
+import { getCases } from '../../actions/case/getCases';
+import { formatDatee } from '../../helpers/formatters';
 
 function Dashboard(props) {
 
@@ -51,7 +55,12 @@ function Dashboard(props) {
         setSearchTerm(event.target.value);
     };
     useEffect(() => {
-        const activeCases = ["98123 No'lu boşanma davası", "432213 No'lu ceza davası", "43534 No'lu boşanma davası", "3243 No'lu ceza davası",];
+        const activeCases = [
+            "98123 No'lu boşanma davası",
+            "432213 No'lu ceza davası",
+            "43534 No'lu boşanma davası",
+            "3243 No'lu ceza davası",
+        ];
         const caseResults = activeCases.filter(listItem => listItem.toLowerCase().includes(searchTerm.toLowerCase()));
         setSearchcaseResults(caseResults);
     }, [searchTerm]);
@@ -153,15 +162,16 @@ function Dashboard(props) {
         }
 
     }, [props.addClient]);
-    const handlePageChange = (newPage) => {
-        // setCurrentPage(newPage);
-        // console.log(newPage + 1)
-        // Burada yeni sayfa numarasına göre verileri yükleyin veya başka işlemler yapın
-    };
 
-    console.log(props.getClients)
+    useEffect(() => {
+        dispatch(getCases());
+    }, [dispatch])
+
+
+
     return (
         <div>
+            <IsLogin />
             <Header />
             <div className="container">
                 <div className="row mt-4">
@@ -208,7 +218,6 @@ function Dashboard(props) {
                                     itemsShown={5}
                                     totalItems={8}
                                     page={currentPage}
-                                    onChange={handlePageChange}
                                 />
                             </div>
                         </div>
@@ -216,27 +225,30 @@ function Dashboard(props) {
                     <div className="col-4">
                         <div className="card">
                             <div className="card-body text-start">
-                                {/* <StructuredListSkeleton  /> */}
                                 <div className='d-flex justify-content-between'>
-                                    <h4>Yaklaşan davalarım</h4>
-                                    <IconButton
-                                        label="Dava ekle"
-                                        onClick={() => console.log('IconButton clicked')}
-                                    >
-                                        <Add />
-                                    </IconButton>
-
+                                    <h4>Davalarım</h4>
                                 </div>
-                                <ContainedList label="Arayın" kind="on-page" action={''}>
-                                    <Search placeholder="Dava adı" value={searchTerm} onChange={handleChange} closeButtonLabelText="Clear search input" size="lg" labelText="Filter search" />
-                                    {searchcaseResults.map((listItem, key) => {
-                                        return (
-                                            <ContainedListItem className="" key={key}>{listItem} <div className="text-end">
-                                                <Tag>3 gün kaldı</Tag></div>
-                                            </ContainedListItem>
-                                        )
-                                    })}
-                                </ContainedList>
+                                {props.getCases.spinner ?
+                                    <InlineLoading status="active" iconDescription="Loading" description="Loading data..." />
+                                    :
+                                    <ContainedList kind="on-page" action={''}>
+                                        {props.getCases?.getCases?.result?.map((element, index) => {
+                                            return (
+                                                <ContainedListItem key={index} className="" >
+                                                    {console.log(element)}
+                                                    <div className="d-flex justify-content-between">
+                                                    <p>{element.Client.Name + " " + element.Client.Surname}</p>
+                                                    <p>{element.Client.PhoneNumber}</p>
+                                                        <p></p>
+                                                        <Tag>{formatDatee(element.StartDate)}</Tag>
+                                                    </div>
+                                                    <Link className='d-flex- justify-align-center' style={{textDecoration: "none"}} to={'/dava/' + element.ID}>Detay <i class="fa-light fa-arrow-right"></i></Link>
+                                                </ContainedListItem>
+                                            )
+                                        })}
+                                    </ContainedList>
+                                }
+
                             </div>
                         </div>
                     </div>

@@ -25,6 +25,7 @@ import {
     Search,
     Settings
 } from '@carbon/icons-react';
+import IsLogin from '../layouts/IsLogin';
 
 function Client() {
 
@@ -32,6 +33,7 @@ function Client() {
 
     return (
         <div>
+            <IsLogin />
             <Header />
             <div className="container">
                 <Breadcrumb>

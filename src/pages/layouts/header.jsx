@@ -25,14 +25,7 @@ function AppHeader(props) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    // useEffect(() => {
-    //     if (props.verifyCode.isLogin === false) {
-    //         if(!props.createCode.done) {
-    //             navigate("/giris-yap");
-    //             return;
-    //         }
-    //     }
-    // }, [navigate, props.verifyCode, props.createCode]);
+
 
     function Logout() {
         dispatch(resetCreateCOde())

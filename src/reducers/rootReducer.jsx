@@ -10,6 +10,12 @@ import addClient from "./client/addClient";
 import getClients from "./client/getClients";
 import addCase from "./case/addCase";
 import updateCase from "./case/updateCase";
+import getCases from "./case/getCases";
+import getCaseFiles from "./case/getCaseFiles";
+import textToSpeech from "./openai/textToSpeech";
+import getCase from "./case/getCase";
+import getUser from "./user/getUser";
+import updateUser from "./user/updateUser";
 export default combineReducers({
     genesis,
     verifyCode,
@@ -21,5 +27,11 @@ export default combineReducers({
     addClient,
     getClients,
     addCase,
-    updateCase
+    updateCase,
+    getCases,
+    getCaseFiles,
+    textToSpeech,
+    getCase,
+    getUser,
+    updateUser
 });

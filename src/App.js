@@ -21,6 +21,7 @@ import Cases from "./pages/case/Cases";
 import Client from "./pages/client/Client";
 import Payment from "./pages/payment/Payment";
 import Settings from "./pages/settings/Settings";
+import Case from "./pages/case/Case";
 
 function App(props) {
   return (
@@ -39,6 +40,7 @@ function App(props) {
         <Route path="/muvekkillerim" element={<Clients />}></Route>
         <Route path="/davalarim" element={<Cases />}></Route>
         <Route path="/muvekkil/:Id" element={<Client />}></Route>
+        <Route path="/dava/:Id" element={<Case />}></Route>
         <Route path="/ayarlar" element={<Settings />}></Route>
       </Routes>
     </div>
