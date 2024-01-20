@@ -20,7 +20,7 @@ export function textToSpeech(model, input, voice, response_format, speed) {
                 headers: {
                     "Accept-Language": "tr-tr",
                     "Content-Type": "application/json",
-                    Authorization: `Bearer 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`,
+                    Authorization: `Bearer OPENAI_API_KEY`,
                 },
             }).then((result) => result.data),
         });
